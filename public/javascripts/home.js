@@ -5,7 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
     contact_background = document.getElementsByClassName("contact-background")[0]
     contact_container = document.getElementsByClassName("contact-container")[0]
     contact_close = document.querySelector('.contact>.close');
-    contact_submit = document.querySelector('.contact>.contact-submit>input')
+    contact_submit = document.querySelector('.contact>.contact-submit>input');
+    contact_form = document.querySelector('#contact-form');
 
 
     join_button.addEventListener("click", function () {
@@ -18,10 +19,33 @@ document.addEventListener("DOMContentLoaded", function () {
         contact_container.style.display = "none"
     })
 
-    contact_submit.addEventListener("click", function () {
-        contact_background.style.display = "none"
-        contact_container.style.display = "none"
-    })
+
+    $(document).ready(function () {
+
+        $('#contact-form').submit(function (event) {
+            contact_background.style.display = "none"
+            contact_container.style.display = "none"
+            // Ngăn chặn việc tải lại trang khi submit form
+            event.preventDefault();
+
+
+
+            // Gửi AJAX yêu cầu đến server
+            $.ajax({
+                url: '/',
+                type: 'POST',
+                data: $(this).serialize(), // Gửi dữ liệu từ form
+                success: function (response) {
+                    // Hiển thị thông báo phản hồi từ server trong div "message"
+                    alert('Gửi liên hệ thành công')
+                },
+                error: function (error) {
+                    alert(err);
+                }
+            });
+        });
+    });
+
 });
 
 

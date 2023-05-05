@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/stylesheets/home.css">
     <link rel="stylesheet" href="/stylesheets/all.css">
     <link rel="stylesheet" href="/stylesheets/all.min.css">
+    <script src="/javascripts/jquery-3.6.4.min.js"></script>
     <script src="/javascripts/all.js"></script>
     <script src="/javascripts/all.min.js"></script>
     <script src="/javascripts/home.js"></script>
@@ -17,11 +18,10 @@
 
 <body>
     <header>
-        <a href="#">Entier Blog</a>
+        <a href="/">Entier Blog</a>
         <div class="top-menu">
-            <a href="/">Trang Chủ</a><a href="/introduce">Giới Thiệu</a><a href="/news">Bài
-                Viết</a><a href="/project">Dự
-                Án</a><input type="text" placeholder="Tìm kiếm gì đó?"><a href="#" class="search"></a>
+            <a href="/">Trang Chủ</a><a href="/introduce">Giới Thiệu</a><a href="/post">Bài
+                Viết</a><input type="text" placeholder="Tìm kiếm gì đó?"><a href="#" class="search"></a>
         </div>
     </header>
     <main>
@@ -99,27 +99,28 @@
         <div class="contact">
             <div class="close">X</div>
             <h2>LIÊN HỆ VỚI CHÚNG TÔI</h2>
-            <form action="" method="post">
+            <form action="/" method="post" id="contact-form">
                 <table>
                     <tr>
-                        <td class="contact-name"><input type="text" placeholder="Họ tên"></td>
-                        <td class="contact-mail"><input type="text" placeholder="E-mail"></td>
+                        <td class="contact-name"><input name="contact-name" type="text" placeholder="Họ tên"></td>
+                        <td class="contact-mail"><input name="contact-mail" type="text" placeholder="E-mail"></td>
                     </tr>
                     <tr>
-                        <td class="contact-phone"><input type="text" placeholder="Điện thoại"></td>
-                        <td class="contact-address"><input type="text" placeholder="Địa chỉ"></td>
+                        <td class="contact-phone"><input name="contact-fone" type="text" placeholder="Điện thoại"></td>
+                        <td class="contact-address"><input name="contact-address" type="text" placeholder="Địa chỉ">
+                        </td>
                     </tr>
                     <tr>
                         <td colspan="2">
                             <select name="contact-who" id="contact-who">
-                                <option value="who" class="who" selected>Bạn là ai?</option>
-                                <option value="student">Học sinh - sinh viên</option>
-                                <option value="ba">Nhà phân tích</option>
-                                <option value="designer">Nhà thiết kế</option>
-                                <option value="coder">Lập trình viên</option>
-                                <option value="tester">Kiểm thử viên</option>
-                                <option value="pm">Quản lý dự án</option>
-                                <option value="other">Khác</option>
+                                <option value="Không rõ" class="who" selected>Bạn là ai?</option>
+                                <option value="Học sinh - sinh viên">Học sinh - sinh viên</option>
+                                <option value="Nhà phân tích">Nhà phân tích</option>
+                                <option value="Nhà thiết kế">Nhà thiết kế</option>
+                                <option value="Lập trình viên">Lập trình viên</option>
+                                <option value="Kiểm thử viên">Kiểm thử viên</option>
+                                <option value="Quản lý dự án">Quản lý dự án</option>
+                                <option value="Khác">Khác</option>
 
                             </select>
                         </td>

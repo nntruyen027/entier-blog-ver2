@@ -8,7 +8,11 @@ const accountSchema = mongoose.Schema({
     password: {
         type: String
     }
-})
+});
+
+accountSchema.methods.verifyPassword = function (password) {
+    return this.password == password;
+}
 
 const account = mongoose.model('account', accountSchema);
 

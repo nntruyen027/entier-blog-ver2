@@ -2,6 +2,7 @@ var express = require('express');
 const path = require('path');
 var router = express.Router();
 var contactModel = require('../models/contact');
+const passport = require('../configs/passport');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -14,9 +15,19 @@ router.get('/introduce', (req, res, next) => {
   res.sendFile(file_path)
 })
 
+router.get('/login', (req, res, next) => {
+  var file_path = path.join(path.join(__dirname.replace('routes', 'views'), 'login.html'));
+  res.sendFile(file_path);
+})
+
+router.post('/login', passport.authenticate('local-login', {
+  failureRedirect: '/login',
+  failureFlash: false
+}), (res, req, next) => {
+  req.redirect('/');
+})
+
 router.post('/', (req, res, next) => {
-  console.log(req);
-  console.log(req.body);
   contactModel.create({
     name: req.body['contact-name'],
     email: req.body['contact-mail'],
@@ -26,12 +37,10 @@ router.post('/', (req, res, next) => {
     other: req.body['contact-other']
   })
     .then(data => {
-      console.log('Đã thêm dữ liệu')
-      res.status(200).send('Gửi dữ liệu thành công');
+      res.status(200).json({ message: 'Gửi dữ liệu thành công' });
     })
     .catch(err => {
-      res.status(500).send('Thất bại')
-      console.log('Thêm thất bại')
+      res.status(500).send({ message: 'Gửi thất bại' })
     })
 
 })

@@ -36,8 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 type: 'POST',
                 data: $(this).serialize(), // Gửi dữ liệu từ form
                 success: function (response) {
-                    // Hiển thị thông báo phản hồi từ server trong div "message"
-                    alert('Gửi liên hệ thành công')
+                    alert(response.message)
                 },
                 error: function (error) {
                     alert(err);

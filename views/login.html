@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./stylesheets/bootstrap.min.css">
+    <script src="./javascripts/jquery-3.6.4.min.js"></script>
+    <style>
+        input {
+            width: 400px !important;
+            margin: 4px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Đăng nhập</h1>
+    <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1"
+        id="username">
+    <input type="password" class="form-control" placeholder="Password" aria-label="Username"
+        aria-describedby="basic-addon1" id="password">
+    <button type="button" class="btn btn-outline-primary" onclick="login()">Đăng nhập</button>
+</body>
+<script>
+    function login() {
+        $.ajax({
+            url: './login',
+            type: 'POST',
+            data: {
+                username: $('#username').val(),
+                password: $('#password').val()
+            }
+        })
+            .then((data) => {
+                alert('Đăng nhập thành công' + data);
+            })
+            .catch(err => {
+                alert('Đăng nhập thất bại');
+            })
+    }
+
+
+</script>
+
+</html>

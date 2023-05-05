@@ -4,20 +4,30 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const bodyParser = require('body-parser');
+var session = require('express-session');
+var flash = require('connect-flash');
+
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var postRouter = require('./routes/post');
+
+var passport = require('./configs/passport');
 
 //connect mongodb
 var dbConnect = require('./models/db');
 dbConnect();
 
+
 var app = express();
 
-// view engine setup
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'html');
+app.use(session({
+  secret: 'ngoctruyen',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 12 * 60 * 60 * 100
+  }
+}));
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -27,8 +37,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+//use passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+//middleware check login
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated())
+    next();
+  else
+    res.redirect('/login')
+}
+
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/post', postRouter);
 
 // catch 404 and forward to error handler

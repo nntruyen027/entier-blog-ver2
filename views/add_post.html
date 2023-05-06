@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Add New Post</title>
+    <style>
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input[type=text],
+        .form-group textarea {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+            resize: none;
+            font-size: 16px;
+        }
+
+        .form-group input[type=file] {
+            display: block;
+            margin-top: 5px;
+        }
+
+        .preview-image {
+            max-width: 100%;
+            height: auto;
+            margin-top: 10px;
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .error-message {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Add New Post</h1>
+    <form id="new-post-form" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required>
+            <span class="error-message" id="title-error"></span>
+        </div>
+        <div class="form-group">
+            <label for="content">Content:</label>
+            <textarea id="content" name="content" rows="10" required></textarea>
+            <span class="error-message" id="content-error"></span>
+        </div>
+        <div class="form-group">
+            <label for="image">Image:</label>
+            <input type="file" id="image" name="image">
+            <span class="error-message" id="image-error"></span>
+            <div id="preview-container"></div>
+        </div>
+        <button type="submit" class="btn-submit">Add Post</button>
+    </form>
+
+    <script>
+        // Validate form before submit
+        document.getElementById('new-post-form').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent form from submitting
+            var formValid = true;
+            var titleInput = document.getElementById('title');
+            var contentInput = document.getElementById('content');
+            var imageInput = document.getElementById('image');
+
+            // Reset error messages
+            document.getElementById('title-error').textContent = '';
+            document.getElementById('content-error').textContent = '';
+            document.getElementById('image-error').textContent = '';
+
+            // Validate title input
+            if (titleInput.value.length < 10) {
+                document.getElementById('title-error').textContent = 'Title must be at least 10 characters.';
+                formValid = false;
+            }
+
+            // Validate content input
+            if (contentInput.value.length < 50) {
+                document.getElementById('content-error').textContent = 'Content must be at least 50 characters.';
+                formValid = false;
+            }
+
+            if (imageInput.files.length > 0) {
+                const imageFile = imageInput.files[0];
+                const imageUrl = URL.createObjectURL(imageFile);
+                const image = document.createElement('img');
+                image.src = imageUrl;
+                image.classList.add('post-image');
+                postContent.appendChild(image);
+                formData.append('image', imageFile);
+            }
+
+            // create post content
+            const content = document.createElement('div');
+            content.classList.add('post-content');
+            const title = document.createElement('h2');
+            title.textContent = postTitle;
+            content.appendChild(title);
+            const body = document.createElement('p');
+            body.textContent = postBody;
+            content.appendChild(body);
+            postContent.appendChild(content);
+
+            // create post author
+            const author = document.createElement('div');
+            author.classList.add('post-author');
+            const authorName = document.createElement('p');
+            authorName.textContent = `Posted by: ${postAuthor}`;
+            author.appendChild(authorName);
+            postContent.appendChild(author);
+
+            // create post date
+            const date = document.createElement('div');
+            date.classList.add('post-date');
+            const dateText = document.createElement('p');
+            dateText.textContent = `Posted on: ${new Date().toLocaleDateString()}`;
+            date.appendChild(dateText);
+            postContent.appendChild(date);
+
+            // create post form data
+            formData.append('title', postTitle);
+            formData.append('body', postBody);
+            formData.append('author', postAuthor);
+            formData.append('date', new Date());
+
+            // submit form data
+            fetch('/add-post', {
+                method: 'POST',
+                body: formData
+            }).then(response => {
+                if (response.ok) {
+                    alert('Post added successfully!');
+                    window.location.href = '/'; // redirect to home page
+                } else {
+                    alert('Failed to add post.');
+                }
+            }).catch(error => {
+                alert(`Error: ${error}`);
+            });
+        })
+    </script>
+</body>

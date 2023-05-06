@@ -144,9 +144,8 @@
 }
 
 .contact .close:hover {
-    background-color: red;
     cursor: pointer;
-
+    background-color: red;
 }
 
 .contact h2 {

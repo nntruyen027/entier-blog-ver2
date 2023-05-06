@@ -20,28 +20,63 @@ document.addEventListener("DOMContentLoaded", function () {
     })
 
 
+    function validateForm() {
+        var name = document.forms["contact-form"]["contact-name"].value;
+        var mail = document.forms["contact-form"]["contact-mail"].value;
+        var job = document.forms["contact-form"]["contact-who"].value;
+
+
+        const mailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+
+        if (name == "") {
+            alert("Vui lòng nhập tên.");
+            return false;
+        }
+
+        if (!mailRegex.test(mail)) {
+            alert("Vui lòng nhập mail.");
+            return false;
+        }
+
+        if (job == 'Không rõ') {
+            alert("Vui lòng cho biết công việc")
+            return false;
+        }
+
+        return true;
+    }
+
+
+
     $(document).ready(function () {
 
         $('#contact-form').submit(function (event) {
-            contact_background.style.display = "none"
-            contact_container.style.display = "none"
             // Ngăn chặn việc tải lại trang khi submit form
             event.preventDefault();
+            if (!validateForm()) {
+                return;
+            }
+            else {
+                contact_background.style.display = "none"
+                contact_container.style.display = "none"
 
 
+                // Gửi AJAX yêu cầu đến server
+                $.ajax({
+                    url: '/',
+                    type: 'POST',
+                    data: $(this).serialize(), // Gửi dữ liệu từ form
+                    success: function (response) {
+                        alert(response.message)
+                    },
+                    error: function (error) {
+                        alert(err);
+                    }
+                });
+            }
 
-            // Gửi AJAX yêu cầu đến server
-            $.ajax({
-                url: '/',
-                type: 'POST',
-                data: $(this).serialize(), // Gửi dữ liệu từ form
-                success: function (response) {
-                    alert(response.message)
-                },
-                error: function (error) {
-                    alert(err);
-                }
-            });
+
         });
     });
 

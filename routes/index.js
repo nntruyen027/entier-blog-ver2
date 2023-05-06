@@ -10,23 +10,8 @@ router.get('/', function (req, res, next) {
   res.sendFile(file_path)
 });
 
-router.get('/introduce', (req, res, next) => {
-  var file_path = path.join(path.join(__dirname.replace('routes', 'views'), 'introduce.html'));
-  res.sendFile(file_path)
-})
 
-router.get('/login', (req, res, next) => {
-  var file_path = path.join(path.join(__dirname.replace('routes', 'views'), 'login.html'));
-  res.sendFile(file_path);
-})
-
-router.post('/login', passport.authenticate('local-login', {
-  failureRedirect: '/login',
-  failureFlash: false
-}), (res, req, next) => {
-  req.redirect('/');
-})
-
+/* POST contact form */
 router.post('/', (req, res, next) => {
   contactModel.create({
     name: req.body['contact-name'],
@@ -45,5 +30,24 @@ router.post('/', (req, res, next) => {
 
 })
 
+/* GET introduce page */
+
+router.get('/introduce', (req, res, next) => {
+  var file_path = path.join(path.join(__dirname.replace('routes', 'views'), 'introduce.html'));
+  res.sendFile(file_path)
+})
+
+/* GET login page */
+
+router.get('/login', (req, res, next) => {
+  var file_path = path.join(path.join(__dirname.replace('routes', 'views'), 'login.html'));
+  res.sendFile(file_path);
+})
+
+/* POST login page */
+
+router.post('/login', passport.authenticate('local-login'), (req, res, next) => {
+  res.json({ redirect_url: '/' });
+});
 
 module.exports = router;

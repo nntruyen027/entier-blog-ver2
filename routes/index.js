@@ -2,6 +2,7 @@ var express = require('express');
 const path = require('path');
 var router = express.Router();
 var contactModel = require('../models/contact');
+var postModel = require('../models/post');
 const passport = require('../configs/passport');
 
 /* GET home page. */
@@ -37,6 +38,24 @@ router.get('/introduce', (req, res, next) => {
   res.sendFile(file_path)
 })
 
+
+router.get('/post', (req, res, next) => {
+  var file_path = path.join(path.join(__dirname.replace('routes', 'views'), 'news.html'));
+  res.sendFile(file_path)
+})
+
+router.get('/post/data', (req, res, next) => {
+  postModel.find({})
+    .then(data => {
+      console.log(data)
+      res.json({ data: data });
+    })
+    .catch(err => {
+      console.log(err)
+      res.json({ data: err });
+    })
+})
+
 /* GET login page */
 
 router.get('/login', (req, res, next) => {
@@ -46,8 +65,10 @@ router.get('/login', (req, res, next) => {
 
 /* POST login page */
 
-router.post('/login', passport.authenticate('local-login'), (req, res, next) => {
-  res.json({ redirect_url: '/' });
+router.post('/login', passport.authenticate('local-login', {
+  failureRedirect: '/login',
+}), (req, res, next) => {
+  res.redirect('/admin');
 });
 
 module.exports = router;

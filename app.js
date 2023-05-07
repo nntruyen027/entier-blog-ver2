@@ -9,7 +9,6 @@ var flash = require('connect-flash');
 
 
 var indexRouter = require('./routes/index');
-var postRouter = require('./routes/post');
 var adminRouter = require('./routes/admin');
 
 var passport = require('./configs/passport');
@@ -51,8 +50,9 @@ function isLoggedIn(req, res, next) {
 }
 
 app.use('/', indexRouter);
-app.use('/post', postRouter);
-app.use('/admin', adminRouter);
+app.use('/admin', (req, res, next) => {
+  isLoggedIn(req, res, next)
+}, adminRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

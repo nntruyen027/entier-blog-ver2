@@ -9,11 +9,12 @@ const postSchema = mongoose.Schema({
         ref: 'categogy'
     },
     summary: String,
-    details: [{
-        content: String
-    }],
+    detail: String,
+    image: String,
     date: mongoose.Schema.Types.Date
 })
+
+
 
 const post = mongoose.model('post', postSchema);
 

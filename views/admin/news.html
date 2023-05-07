@@ -18,8 +18,9 @@
     <header>
         <a href="#">Entier Blog</a>
         <div class="top-menu">
-            <a href="/">Trang Chủ</a><a href="/introduce">Giới Thiệu</a><a href="/post">Bài
-                Viết</a><input type="text" placeholder="Tìm kiếm gì đó?"><a href="#" class="search"></a>
+            <a href="/admin/">Trang Chủ</a><a href="/admin/introduce">Giới Thiệu</a><a href="/admin/post">Bài
+                Viết</a><a href="/admin/post/add">Thêm bài viết</a><input type="text" placeholder="Tìm kiếm gì đó?"><a
+                href="#" class="search"></a>
         </div>
     </header>
     <main>
@@ -113,13 +114,6 @@
         <a href="" class="twitter"><i class="fa-brands fa-twitter"></i></a>
         <a href="" class="intagram"><i class="fa-brands fa-instagram"></i></a>
     </footer>
-
-    <script>
-        fetch('/post/data')
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.log(error))
-    </script>
 </body>
 
 </html>
